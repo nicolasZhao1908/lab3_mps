@@ -30,14 +30,15 @@ class AdvertisementBoardTest {
 
   @Test
   public void WhenAnAdvertiserHasNoFoundsTheAdvertisementIsNotPublished() {
-    Advertisement advertisement = new Advertisement("title","text","Pepe Gotera y Otilio");
+    String advertiserName = "Pepe Gotera y Otilio";
+    Advertisement advertisement = new Advertisement("title","text",advertiserName);
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
 
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
 
-    Mockito.when(advertiserDatabase.findAdviser("Pepe Gotera y Otilio")).thenReturn(true);
-    Mockito.when(paymentDatabase.advertiserHasFunds("Pepe Gotera y Otilio")).thenReturn(false);
+    Mockito.when(advertiserDatabase.findAdviser(advertiserName)).thenReturn(true);
+    Mockito.when(paymentDatabase.advertiserHasFunds(advertiserName)).thenReturn(false);
 
     int expectedValue, actualValue;
     expectedValue = advertisementBoard.numberOfPublishedAdvertisements();
@@ -49,18 +50,19 @@ class AdvertisementBoardTest {
 
   @Test
   public void AnAdvertisementIsPublishedIfTheAdvertiserIsRegisteredAndHasFunds() {
-    Advertisement advertisement = new Advertisement("title","text","Robin Robot");
+    String advertiserName = "Robin Robot";
+    Advertisement advertisement = new Advertisement("title","text",advertiserName);
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
 
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
 
-    Mockito.when(advertiserDatabase.findAdviser("Robin Robot")).thenReturn(true);
-    Mockito.when(paymentDatabase.advertiserHasFunds("Robin Robot")).thenReturn(true);
+    Mockito.when(advertiserDatabase.findAdviser(advertiserName)).thenReturn(true);
+    Mockito.when(paymentDatabase.advertiserHasFunds(advertiserName)).thenReturn(true);
 
     advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
-    Mockito.verify(paymentDatabase).advertisementPublished("Robin Robot");
-    Mockito.verify(paymentDatabase,Mockito.times(1)).advertisementPublished("Robin Robot");
+    Mockito.verify(paymentDatabase).advertisementPublished(advertiserName);
+    Mockito.verify(paymentDatabase,Mockito.times(1)).advertisementPublished(advertiserName);
   }
 
   @Test
