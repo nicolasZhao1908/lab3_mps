@@ -12,7 +12,7 @@ class AdvertisementBoardTest {
     int expectedValue, actualValue;
     expectedValue = 1;
     actualValue = advertisementBoard.numberOfPublishedAdvertisements();
-    assertEquals(actualValue,expectedValue);
+    assertEquals(expectedValue, actualValue);
   }
 
   @Test
@@ -21,11 +21,13 @@ class AdvertisementBoardTest {
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
+
     int expectedValue, actualValue;
     expectedValue = advertisementBoard.numberOfPublishedAdvertisements()+1;
     advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
     actualValue = advertisementBoard.numberOfPublishedAdvertisements();
-    assertEquals(actualValue,expectedValue);
+
+    assertEquals(expectedValue, actualValue);
   }
 
   @Test
@@ -33,7 +35,6 @@ class AdvertisementBoardTest {
     String advertiserName = "Pepe Gotera y Otilio";
     Advertisement advertisement = new Advertisement("title","text",advertiserName);
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
-
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
 
@@ -44,7 +45,8 @@ class AdvertisementBoardTest {
     expectedValue = advertisementBoard.numberOfPublishedAdvertisements();
     advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
     actualValue = advertisementBoard.numberOfPublishedAdvertisements();
-    assertEquals(actualValue,expectedValue);
+
+    assertEquals(expectedValue, actualValue);
 
   }
 
@@ -53,7 +55,6 @@ class AdvertisementBoardTest {
     String advertiserName = "Robin Robot";
     Advertisement advertisement = new Advertisement("title","text",advertiserName);
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
-
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
 
@@ -62,14 +63,30 @@ class AdvertisementBoardTest {
 
     advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
     Mockito.verify(paymentDatabase).advertisementPublished(advertiserName);
-    Mockito.verify(paymentDatabase,Mockito.times(1)).advertisementPublished(advertiserName);
   }
 
   @Test
-  public void WhenTheOwnerMakesTwoPublicationsAndTheFirstOneIsDeletedItIsNotInTheBoard() {  }
+  public void WhenTheOwnerMakesTwoPublicationsAndTheFirstOneIsDeletedItIsNotInTheBoard() {
+    Advertisement advertisement1 = new Advertisement("title1","text","THE Company");
+    Advertisement advertisement2 = new Advertisement("title2","text","THE Company");
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
+    AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
+    PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
+
+    int expectedValue, actualValue;
+    advertisementBoard.publish(advertisement1,advertiserDatabase,paymentDatabase);
+    advertisementBoard.publish(advertisement2,advertiserDatabase,paymentDatabase);
+    expectedValue = advertisementBoard.numberOfPublishedAdvertisements()-1;
+    advertisementBoard.deleteAdvertisement(advertisement1.title,advertisement1.advertiser);
+    actualValue = advertisementBoard.numberOfPublishedAdvertisements();
+
+    assertEquals(expectedValue, actualValue);
+  }
 
   @Test
-  public void AnExistingAdvertisementIsNotPublished() {}
+  public void AnExistingAdvertisementIsNotPublished() {
+
+  }
 
   @Test
   public void AnExceptionIsRaisedIfTheBoardIsFullAndANewAdvertisementIsPublished() {}
