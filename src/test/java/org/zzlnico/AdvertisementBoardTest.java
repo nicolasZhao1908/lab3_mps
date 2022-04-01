@@ -30,6 +30,20 @@ class AdvertisementBoardTest {
 
   @Test
   public void WhenAnAdvertiserHasNoFoundsTheAdvertisementIsNotPublished() {
+    Advertisement advertisement = new Advertisement("title","text","Pepe Gotera y Otilio");
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
+
+    AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
+    PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
+
+    Mockito.when(advertiserDatabase.findAdviser("Pepe Gotera y Otilio")).thenReturn(true);
+    Mockito.when(paymentDatabase.advertiserHasFunds("Pepe Gotera y Otilio")).thenReturn(false);
+
+    int expectedValue, actualValue;
+    expectedValue = advertisementBoard.numberOfPublishedAdvertisements();
+    advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
+    actualValue = advertisementBoard.numberOfPublishedAdvertisements();
+    assertEquals(actualValue,expectedValue);
 
   }
 
