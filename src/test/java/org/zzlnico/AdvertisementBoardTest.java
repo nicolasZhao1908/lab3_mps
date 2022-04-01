@@ -49,7 +49,18 @@ class AdvertisementBoardTest {
 
   @Test
   public void AnAdvertisementIsPublishedIfTheAdvertiserIsRegisteredAndHasFunds() {
+    Advertisement advertisement = new Advertisement("title","text","Robin Robot");
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
 
+    AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
+    PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
+
+    Mockito.when(advertiserDatabase.findAdviser("Robin Robot")).thenReturn(true);
+    Mockito.when(paymentDatabase.advertiserHasFunds("Robin Robot")).thenReturn(true);
+
+    advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
+    Mockito.verify(paymentDatabase).advertisementPublished("Robin Robot");
+    Mockito.verify(paymentDatabase,Mockito.times(1)).advertisementPublished("Robin Robot");
   }
 
   @Test
