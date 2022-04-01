@@ -8,7 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class AdvertisementBoardTest {
   @Test
   public void ABoardHasAnAdvertisementWhenItIsCreated() {
-    
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
+    int expectedValue, actualValue;
+    expectedValue = 1;
+    actualValue = advertisementBoard.numberOfPublishedAdvertisements();
+    assertEquals(actualValue,expectedValue);
   }
 
   @Test
