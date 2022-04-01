@@ -40,13 +40,15 @@ public class AdvertisementBoard {
   public void publish(Advertisement advertisement,
       AdvertiserDatabase advertiserDatabase,
       PaymentDatabase paymentDatabase) {
-    if (advertisement.advertiser.equals("THE Company"))
-      advertisementList.add(advertisement);
-    else {
-      if ((advertiserDatabase.findAdviser(advertisement.advertiser)) &&
-              (paymentDatabase.advertiserHasFunds(advertisement.advertiser))) {
+    if (!isInList(advertisement)){
+      if (advertisement.advertiser.equals("THE Company"))
         advertisementList.add(advertisement);
-        paymentDatabase.advertisementPublished(advertisement.advertiser);
+      else {
+        if ((advertiserDatabase.findAdviser(advertisement.advertiser)) &&
+                (paymentDatabase.advertiserHasFunds(advertisement.advertiser))) {
+          advertisementList.add(advertisement);
+          paymentDatabase.advertisementPublished(advertisement.advertiser);
+        }
       }
     }
   }
@@ -76,5 +78,16 @@ public class AdvertisementBoard {
       if ((advertisement.title.equals(title) && (advertisement.advertiser.equals(advertiserName))))
         advertisementList.remove(advertisement);
     }
+  }
+  private boolean sameAdvertisement(Advertisement ad1, Advertisement ad2){
+    return ad1.title.equals(ad2.title) && ad1.advertiser.equals(ad2.advertiser);
+  }
+
+  private boolean isInList(Advertisement advertisement){
+    int index = 0;
+    while (index < advertisementList.size() && !sameAdvertisement(advertisementList.get(index),advertisement)){
+      index++;
+    }
+    return index < advertisementList.size();
   }
 }

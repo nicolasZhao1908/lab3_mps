@@ -85,7 +85,19 @@ class AdvertisementBoardTest {
 
   @Test
   public void AnExistingAdvertisementIsNotPublished() {
+    Advertisement advertisement1 = new Advertisement("title","text","THE Company");
+    Advertisement advertisement2 = new Advertisement("title","text","THE Company");
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
+    AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
+    PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
 
+    int expectedValue, actualValue;
+    advertisementBoard.publish(advertisement1,advertiserDatabase,paymentDatabase);
+    expectedValue = advertisementBoard.numberOfPublishedAdvertisements();
+    advertisementBoard.publish(advertisement2,advertiserDatabase,paymentDatabase);
+    actualValue = advertisementBoard.numberOfPublishedAdvertisements();
+
+    assertEquals(expectedValue, actualValue);
   }
 
   @Test
