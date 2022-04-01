@@ -40,10 +40,13 @@ public class AdvertisementBoard {
   public void publish(Advertisement advertisement,
       AdvertiserDatabase advertiserDatabase,
       PaymentDatabase paymentDatabase) {
+
     if (!isInList(advertisement)){
       if (advertisement.advertiser.equals("THE Company"))
         advertisementList.add(advertisement);
       else {
+        if(numberOfPublishedAdvertisements() >= MAX_BOARD_SIZE)
+          throw new FullBoardException();
         if ((advertiserDatabase.findAdviser(advertisement.advertiser)) &&
                 (paymentDatabase.advertiserHasFunds(advertisement.advertiser))) {
           advertisementList.add(advertisement);

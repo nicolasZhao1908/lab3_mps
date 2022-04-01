@@ -101,5 +101,15 @@ class AdvertisementBoardTest {
   }
 
   @Test
-  public void AnExceptionIsRaisedIfTheBoardIsFullAndANewAdvertisementIsPublished() {}
+  public void AnExceptionIsRaisedIfTheBoardIsFullAndANewAdvertisementIsPublished() {
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
+    AdvertisementBoard advertisementBoardSpy = Mockito.spy(advertisementBoard);
+    AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
+    PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
+    Advertisement advertisement = new Advertisement("title","text","Tim O'Theo");
+
+    Mockito.when(advertisementBoardSpy.numberOfPublishedAdvertisements()).thenReturn(20);
+
+    assertThrows(FullBoardException.class, () -> advertisementBoardSpy.publish(advertisement,advertiserDatabase,paymentDatabase));
+  }
 }
