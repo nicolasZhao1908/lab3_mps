@@ -17,6 +17,15 @@ class AdvertisementBoardTest {
 
   @Test
   public void PublishAnAdvertisementByTheCompanyIncreasesTheNumberOfAdvertisementsByOne() {
+    Advertisement advertisement = new Advertisement("title","text","THE Company");
+    AdvertisementBoard advertisementBoard = new AdvertisementBoard();
+    AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
+    PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
+    int expectedValue, actualValue;
+    expectedValue = advertisementBoard.numberOfPublishedAdvertisements()+1;
+    advertisementBoard.publish(advertisement,advertiserDatabase,paymentDatabase);
+    actualValue = advertisementBoard.numberOfPublishedAdvertisements();
+    assertEquals(actualValue,expectedValue);
   }
 
   @Test
