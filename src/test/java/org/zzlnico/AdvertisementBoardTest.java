@@ -67,8 +67,9 @@ class AdvertisementBoardTest {
 
   @Test
   public void WhenTheOwnerMakesTwoPublicationsAndTheFirstOneIsDeletedItIsNotInTheBoard() {
-    Advertisement advertisement1 = new Advertisement("title1","text","THE Company");
-    Advertisement advertisement2 = new Advertisement("title2","text","THE Company");
+    String advertiserName = "THE Company";
+    Advertisement advertisement1 = new Advertisement("title1","text",advertiserName);
+    Advertisement advertisement2 = new Advertisement("title2","text",advertiserName);
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
@@ -85,8 +86,9 @@ class AdvertisementBoardTest {
 
   @Test
   public void AnExistingAdvertisementIsNotPublished() {
-    Advertisement advertisement1 = new Advertisement("title","text","THE Company");
-    Advertisement advertisement2 = new Advertisement("title","text","THE Company");
+    String advertiserName = "THE Company";
+    Advertisement advertisement1 = new Advertisement("title","text",advertiserName);
+    Advertisement advertisement2 = new Advertisement("title","text",advertiserName);
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
@@ -102,11 +104,16 @@ class AdvertisementBoardTest {
 
   @Test
   public void AnExceptionIsRaisedIfTheBoardIsFullAndANewAdvertisementIsPublished() {
+    /**
+     * Tiene sentido usar test double tipo spy porque spy nos permite cambiar el comportamiento del método
+     * numberOfPublishedAdvertisements() de la clase AdvertisementBoard para que retorne 20 cuando se llame la función
+      */
+    String advertiserName = "Tim O'Theo";
     AdvertisementBoard advertisementBoard = new AdvertisementBoard();
     AdvertisementBoard advertisementBoardSpy = Mockito.spy(advertisementBoard);
     AdvertiserDatabase advertiserDatabase = Mockito.mock(AdvertiserDatabase.class);
     PaymentDatabase paymentDatabase = Mockito.mock(PaymentDatabase.class);
-    Advertisement advertisement = new Advertisement("title","text","Tim O'Theo");
+    Advertisement advertisement = new Advertisement("title","text",advertiserName);
 
     Mockito.when(advertisementBoardSpy.numberOfPublishedAdvertisements()).thenReturn(20);
 
